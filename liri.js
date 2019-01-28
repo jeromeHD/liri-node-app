@@ -2,9 +2,11 @@ require("dotenv").config();
 
 var keys = require("./keys.js");
 var fs = require("fs");
+var axios = require("axios");
 var Spotify = require("node-spotify-api");
 var spotify = new Spotify(keys.spotify);
 var liriReturn = process.argv[2];
+var movieName = process.argv[2];
 
 switch (liriReturn) {
   case "spotify-this-song":
@@ -13,6 +15,10 @@ switch (liriReturn) {
 
   case "movie-this":
     movieThis();
+    break;
+
+  case "concert-this":
+    concertThis();
     break;
 
   case "do-what-it-says":
@@ -73,4 +79,11 @@ function spotifyThisSong(trackName) {
       }
     }
   );
+}
+function movieThis(movieName) {
+  var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy";
+  console.log(queryUrl);
+  axios.get(queryUrl).then(function(response) {
+    console.log("Release Year: " + response.data.Year);
+  });
 }
