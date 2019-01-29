@@ -6,7 +6,7 @@ var axios = require("axios");
 var Spotify = require("node-spotify-api");
 var spotify = new Spotify(keys.spotify);
 var liriReturn = process.argv[2];
-var movieName = process.argv[2];
+var movieName = process.argv[3];
 
 switch (liriReturn) {
   case "spotify-this-song":
@@ -80,10 +80,17 @@ function spotifyThisSong(trackName) {
     }
   );
 }
-function movieThis(movieName) {
+function movieThis() {
   var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy";
   console.log(queryUrl);
   axios.get(queryUrl).then(function(response) {
-    console.log("Release Year: " + response.data.Year);
+    console.log("Title: " + response.data.Title + "\n");
+    console.log("Release Year: " + response.data.Year + "\n");
+    // console.log("IMDB Rating: " + response.data.Ratings[0] + "\n");
+    // console.log("Rotten Tomatoes Rating: " + response.data.Ratings.Source[1] + "\n");
+    console.log("Country Produced: " + response.data.Country + "\n");
+    console.log("Movie Language: " + response.data.Language + "\n");
+    console.log("Movie Plot: " + response.data.Plot + "\n");
+    console.log("Movie Actors: " + response.data.Actors + "\n");
   });
 }
