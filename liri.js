@@ -7,6 +7,7 @@ var Spotify = require("node-spotify-api");
 var spotify = new Spotify(keys.spotify);
 var liriReturn = process.argv[2];
 var movieName = process.argv[3];
+var artist = process.argv[3];
 
 switch (liriReturn) {
   case "spotify-this-song":
@@ -33,6 +34,8 @@ switch (liriReturn) {
         "spotify-this-song 'any song title' " +
         "\n" +
         "movie-this 'any movie title' " +
+        "\n" +
+        "concert-this 'any band name' " +
         "\n" +
         "do-what-it-says " +
         "\n" +
@@ -86,11 +89,30 @@ function movieThis() {
   axios.get(queryUrl).then(function(response) {
     console.log("Title: " + response.data.Title + "\n");
     console.log("Release Year: " + response.data.Year + "\n");
-    // console.log("IMDB Rating: " + response.data.Ratings[0] + "\n");
-    // console.log("Rotten Tomatoes Rating: " + response.data.Ratings.Source[1] + "\n");
+    console.log("IMDB Rating: " + response.data.imdbRating + "\n");
+    console.log("Rotten Tomatoes Rating: " + response.data.Ratings[1].Value + "\n");
     console.log("Country Produced: " + response.data.Country + "\n");
     console.log("Movie Language: " + response.data.Language + "\n");
     console.log("Movie Plot: " + response.data.Plot + "\n");
     console.log("Movie Actors: " + response.data.Actors + "\n");
+  });
+}
+//Bands In Town Function
+function concertThis() {
+  var queryUrl = "https://rest.bandsintown.com/artists/" + artist + "?app_id=codingbootcamp";
+  console.log(queryUrl);
+  axios.get(queryUrl).then(function(response) {
+    console.log("Artist or Band you choose is: " + artist);
+    console.log("Venue is located in: " + response.data[0].venue.name);
+    console.log("Venue is located in: " + response.data[0].venue.city);
+    console.log("Date/Time is: " + response.data[i].datetime);
+  });
+}
+function doWhatItSays() {
+  fs.readFile("random.txt", "utf8", function(error, data) {
+    if (error) {
+      return console.log(error);
+    }
+    console.log(data);
   });
 }
